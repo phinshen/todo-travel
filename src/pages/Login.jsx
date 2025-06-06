@@ -1,17 +1,30 @@
 import { Container, Button, Form } from "react-bootstrap"
-import { useState } from "react";
-
-
+import { useContext, useState } from "react";
+import { AuthContext } from "../AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [username, setUsername] = useState(""); // to store email input
     const [password, setPassword] = useState(""); // to store password input
+    const authContext = useContext(AuthContext); // to get access to the token
+    const navigate = useNavigate(); //allow programmatic page navatigation
+
+    function login() {
+        const isCorrectUsername = username === "example@example.com";
+        const isCorrectPassword = password === "password";
+
+        if (isCorrectUsername && isCorrectPassword) {
+            authContext.setToken("1234"); //save token in context
+            navigate("/dashboard");
+        }
+    }
 
     return (
         <Container>
-            <h1>Login to your account</h1>
+            <h1>Welcome to Your Ultimate Travel Companion!</h1>
+            <p className="fs-3">Please login to access your planner.</p>
             <Form>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail" className="my-3">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
                         type="email"
@@ -24,7 +37,7 @@ export default function Login() {
                     </Form.Text>
                 </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group controlId="formBasicPassword" className="my-3">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -34,7 +47,7 @@ export default function Login() {
                     />
                 </Form.Group>
 
-                <Button variant="primary">Login</Button>
+                <Button className="my-1" variant="primary" onClick={login}>Login</Button>
             </Form>
         </Container>
     )
