@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
     const [username, setUsername] = useState(""); // to store email input
     const [password, setPassword] = useState(""); // to store password input
+    const [error, setError] = useState(null); // to store error messages 
     const authContext = useContext(AuthContext); // to get access to the token
     const navigate = useNavigate(); //allow programmatic page navatigation
 
@@ -14,15 +15,20 @@ export default function Login() {
         const isCorrectPassword = password === "password";
 
         if (isCorrectUsername && isCorrectPassword) {
+            setError(""); // clear error if login is correct
             authContext.setToken("1234"); //save token in context
             navigate("/dashboard");
+        } else {
+            setError('Incorrect username/password'); // show error
         }
+
     }
 
     return (
         <Container>
             <h1>Welcome to Your Ultimate Travel Companion!</h1>
             <p className="fs-3">Please login to access your planner.</p>
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <Form>
                 <Form.Group controlId="formBasicEmail" className="my-3">
                     <Form.Label>Email address</Form.Label>

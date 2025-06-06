@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import useLocalStorage from 'use-local-storage';
 import { AuthContext } from "./AuthContext";
+import RequireAuth from "./components/RequireAuth";
 
 
 export default function App() {
@@ -14,7 +15,10 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
