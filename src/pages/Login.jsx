@@ -25,36 +25,40 @@ export default function Login() {
     }
 
     return (
-        <Container>
-            <h1>Welcome to Your Ultimate Travel Companion!</h1>
-            <p className="fs-3">Please login to access your planner.</p>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <Form>
-                <Form.Group controlId="formBasicEmail" className="my-3">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control
-                        type="email"
-                        placeholder="Enter your email"
-                        value={username}
-                        onChange={(event) => setUsername(event.target.value)}
-                    />
-                    <Form.Text className="text-muted">
-                        We&apos;ll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
+        <div className="my-5">
+            <Container>
+                <h1>Welcome to Your Ultimate Travel Companion!</h1>
+                <p className="fs-3">Please login to access your planner.</p>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                <Form>
+                    <Form.Group controlId="formBasicEmail" className="my-3">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control
+                            className="w-50"
+                            type="email"
+                            placeholder="Enter your email"
+                            value={username}
+                            onChange={(event) => setUsername(event.target.value)}
+                        />
+                        <Form.Text className="text-muted">
+                            We&apos;ll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
 
-                <Form.Group controlId="formBasicPassword" className="my-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
-                </Form.Group>
+                    <Form.Group controlId="formBasicPassword" className="my-3">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            className="w-50"
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
+                    </Form.Group>
 
-                <Button className="my-1" variant="primary" onClick={login}>Login</Button>
-            </Form>
-        </Container>
+                    <Button className="my-1" variant="primary" onClick={login}>Login</Button>
+                </Form>
+            </Container>
+        </div>
     )
 }
