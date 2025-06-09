@@ -1,10 +1,27 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Trips from "./pages/Trips";
 import useLocalStorage from 'use-local-storage';
 import { AuthContext } from "./AuthContext";
 import RequireAuth from "./components/RequireAuth";
+import { Container, Navbar } from "react-bootstrap";
+import './App.css';
+
+function Layout() {
+  return (
+    <>
+      <Navbar style={{ backgroundColor: "#87CEFA" }} variant="light">
+        <Container>
+          <Navbar.Brand href="/">
+            <i className="bi bi-airplane" style={{ fontSize: "50px" }}></i>
+          </Navbar.Brand>
+        </Container>
+      </Navbar>
+      <Outlet />
+    </>
+  )
+}
 
 
 export default function App() {
@@ -14,11 +31,17 @@ export default function App() {
     <AuthContext.Provider value={{ token, setToken }}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={
-            <RequireAuth>
-              <Dashboard />
-            </RequireAuth>} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Login />} />
+            <Route path="/dashboard" element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>} />
+            <Route path="/trips" element={
+              <RequireAuth>
+                <Trips />
+              </RequireAuth>} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
