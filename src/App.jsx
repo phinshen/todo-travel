@@ -13,8 +13,9 @@ function Layout() {
     <>
       <Navbar style={{ backgroundColor: "#87CEFA" }} variant="light">
         <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand href="/dashboard">
             <i className="bi bi-airplane" style={{ fontSize: "50px" }}></i>
+            <Navbar.Text className="ms-3 fw-bold display-6">Travel Planner</Navbar.Text>
           </Navbar.Brand>
         </Container>
       </Navbar>
@@ -22,7 +23,6 @@ function Layout() {
     </>
   )
 }
-
 
 export default function App() {
   const [token, setToken] = useLocalStorage("token", null); // setting up a token state, used for authentication
