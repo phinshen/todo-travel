@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Container, Row, Col, Button, Modal, Card } from 'react-bootstrap';
-import AddTrip from './AddTrip';
+import AddTrip from '../components/AddTrip';
+import useLocalStorage from 'use-local-storage';
 
 export default function Trips() {
-    const [trips, setTrips] = useState([]);
+    const [trips, setTrips] = useLocalStorage("trips", []);
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState("");
 
@@ -37,7 +38,13 @@ export default function Trips() {
                             <Col md={6} className='my-3'>
                                 <Card>
                                     <Card.Body>
-                                        <Card.Title>{trip.countries}</Card.Title>
+                                        <Card.Title className="d-flex justify-content-between">
+                                            {trip.countries}
+                                            <div>
+                                                <Button size='sm' className="me-2 text-dark border" variant='light'><i className="bi bi-pencil"></i></Button>
+                                                <Button size='sm' className="text-dark border" variant='light'><i className="bi bi-trash3"></i></Button>
+                                            </div>
+                                        </Card.Title>
                                         <Card.Text>
                                             From: {trip.fromDate} <br />
                                             To: {trip.toDate}

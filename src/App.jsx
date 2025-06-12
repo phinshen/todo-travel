@@ -15,7 +15,7 @@ function Layout() {
         <Container>
           <Navbar.Brand href="/dashboard">
             <i className="bi bi-airplane" style={{ fontSize: "50px" }}></i>
-            <Navbar.Text className="ms-3 fw-bold display-6">Travel Planner</Navbar.Text>
+            <Navbar.Text className="ms-3 fw-bold display-6">TripPros</Navbar.Text>
           </Navbar.Brand>
         </Container>
       </Navbar>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import { countryList } from "../components/countries";
+import { countryList } from "./countries";
 
 export default function AddTrip({ onAdd }) {
     const [countries, setCountries] = useState("");
