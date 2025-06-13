@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import './App.css';
+import PackingList from "./pages/PackingList";
 
 function Layout() {
   return (
@@ -41,6 +42,10 @@ export default function App() {
             <Route path="/trips" element={
               <RequireAuth>
                 <Trips />
+              </RequireAuth>} />
+            <Route path="/packing-list" element={
+              <RequireAuth>
+                <PackingList />
               </RequireAuth>} />
           </Route>
         </Routes>

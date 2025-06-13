@@ -38,7 +38,7 @@ export default function Trips() {
             <Container className="my-3">
                 <Row>
                     <div className="d-flex justify-content-between align-items-center">
-                        <h1 className="mby-4">Upcoming Trip </h1>
+                        <h2 className="mby-4">Upcoming Trip </h2>
                         <Button className="mby-4" onClick={() => handleOpenModal("add")}>Add Trip</Button>
                     </div>
 
