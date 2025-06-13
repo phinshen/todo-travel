@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Container, Row, Col, Button, Modal, Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteTrip } from '../features/tripsSlice';
+
 import AddTrip from '../components/AddTrip';
-import { useSelector } from 'react-redux';
 
 export default function Trips() {
     const trips = useSelector((state) => state.trips);
+    const dispatch = useDispatch();
 
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState("");
@@ -19,6 +22,15 @@ export default function Trips() {
         setShowModal(false);
         setModalType("");
         setEditData(null); // To avoid form to keep old data next time
+    }
+
+    function handleDelete(tripId) {
+        const confirmDelete = window.confirm("Are you sure you want to delete this trip?");
+
+        if (confirmDelete) {
+            dispatch(deleteTrip({ id: tripId }));
+        }
+
     }
 
     return (
@@ -53,7 +65,10 @@ export default function Trips() {
                                                 <Button
                                                     size='sm'
                                                     className="text-dark border"
-                                                    variant='light'>
+                                                    variant='light'
+                                                    onClick={() => {
+                                                        handleDelete(trip.id)
+                                                    }}>
                                                     <i className="bi bi-trash3"></i>
                                                 </Button>
                                             </div>
@@ -71,7 +86,7 @@ export default function Trips() {
             </Container>
             <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Trip</Modal.Title>
+                    <Modal.Title>{modalType === "edit" ? "Edit Trip" : "Add Trip"}</Modal.Title>
                 </Modal.Header>
                 {(modalType === "add" || modalType === "edit") && (
                     <Modal.Body>

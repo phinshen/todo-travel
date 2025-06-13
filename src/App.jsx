@@ -1,11 +1,12 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Trips from "./pages/Trips";
 import useLocalStorage from 'use-local-storage';
-import { AuthContext } from "./AuthContext";
 import RequireAuth from "./components/RequireAuth";
-import { Container, Navbar } from "react-bootstrap";
+
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import { Container, Navbar, Nav } from "react-bootstrap";
 import './App.css';
 
 function Layout() {

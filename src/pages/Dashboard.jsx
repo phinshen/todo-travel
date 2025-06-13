@@ -1,8 +1,16 @@
 import { Col, Card, Container, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const trips = useSelector((state) => state.trips);
+
+    const upcomingTrips = trips
+        .filter(trip => new Date(trip.fromDate) > new Date()) //only future trips
+        .sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate)); // sort by soonest
+
+    const nextTrips = upcomingTrips[0]; //get the first index in the array
 
     return (
         <Container className='my-3'>
@@ -14,6 +22,17 @@ export default function Dashboard() {
                                 <i className="bi bi-geo-alt-fill me-2"></i>
                                 Trips
                             </Card.Title>
+                            {nextTrips ? (
+                                <Card.Text className="mt-3 p-3 bg-light rounded border">
+                                    <strong className="text-primary">Upcoming Trip</strong><br />
+                                    <span className="fw-semibold">{nextTrips.countries}</span><br />
+                                    <small className="text-muted">{nextTrips.fromDate}</small>
+                                </Card.Text>
+                            ) : (
+                                <Card.Text className="mt-2 text-muted">
+                                    No upcoming trips
+                                </Card.Text>
+                            )}
                         </Card.Body>
                     </Card>
                 </Col>
