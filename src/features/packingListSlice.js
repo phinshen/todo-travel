@@ -16,9 +16,13 @@ const packingListSlice = createSlice({
             if (item) {
                 item.packed = !item.packed;
             }
+        },
+        deleteItem: (state, action) => {
+            const selectedItemId = action.payload;
+            return state.filter((item) => item.id !== selectedItemId);
         }
     }
 })
 
-export const { addItem, togglePacked } = packingListSlice.actions;
+export const { addItem, togglePacked, deleteItem } = packingListSlice.actions;
 export default packingListSlice.reducer;

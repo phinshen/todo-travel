@@ -1,9 +1,10 @@
 import { useState } from "react"
-import { Modal, Button, Container, Row } from 'react-bootstrap';
+import { Modal, Button, Container, Row, ListGroup, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import { togglePacked } from "../features/packingListSlice";
 
 import AddItem from "../components/AddItem";
+import { deleteItem } from "../features/packingListSlice";
 
 export default function PackingList() {
     const packingList = useSelector((state) => state.packingList);
@@ -29,24 +30,35 @@ export default function PackingList() {
                     </div>
 
                     {packingList.length === 0 && <p className="my-3">No item added yet.</p>}
-                    {packingList.map((pack => (
-                        <div
-                            key={pack.id}
-                            className="mt-2"
-                            style={{
-                                textDecoration: pack.packed ? "line-through" : "none",
-                                color: pack.packed ? "gray" : "black"
-                            }}
-                        >
-                            <input
-                                type="checkbox"
-                                className="form-check-input me-2"
-                                checked={pack.packed}
-                                onChange={() => dispatch(togglePacked(pack.id))}
-                            />
-                            {pack.item}
-                        </div>
-                    )))}
+                    <ListGroup className="w-100 my-2">
+                        {packingList.map((pack => (
+                            <ListGroup.Item
+                                key={pack.id}
+                                className="packing-item d-flex justify-content-between align-items-center mt-2"
+                            >
+                                <div>
+                                    <Form.Check
+                                        type="checkbox"
+                                        label={
+                                            <span className={pack.packed ? "text-decoration-line-through text-muted" : ""}>
+                                                {pack.item}
+                                            </span>
+                                        }
+                                        checked={pack.packed}
+                                        onChange={() => dispatch(togglePacked(pack.id))}
+                                    />
+                                </div>
+                                <Button
+                                    variant="outline-danger"
+                                    size="sm"
+                                    className="delete-btn"
+                                    onClick={() => dispatch(deleteItem(pack.id))}
+                                >
+                                    <i className="bi bi-trash"></i>
+                                </Button>
+                            </ListGroup.Item>
+                        )))}
+                    </ListGroup>
                 </Row>
 
             </Container>

@@ -5,12 +5,15 @@ import { useNavigate } from 'react-router-dom';
 export default function Dashboard() {
     const navigate = useNavigate();
     const trips = useSelector((state) => state.trips);
+    const packingList = useSelector((state) => state.packingList);
 
     const upcomingTrips = trips
         .filter(trip => new Date(trip.fromDate) > new Date()) //only future trips
         .sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate)); // sort by soonest
 
     const nextTrips = upcomingTrips[0]; //get the first index in the array
+
+    const unpackedItems = packingList.filter(item => !item.packed).slice(0, 3); //limit to 3 items to show on dashboard
 
     return (
         <Container className='my-3'>
@@ -43,6 +46,19 @@ export default function Dashboard() {
                                 <i className="bi-bag-fill me-2"></i>
                                 Packing List
                             </Card.Title>
+                            <Card.Text className="mt-3 p-3 bg-light rounded border">
+                                <strong>Remaining Items</strong><br />
+                                {unpackedItems.length > 0 && (
+                                    <ul className="mb-0 ps-3" style={{ fontSize: "0.9rem" }}>
+                                        {unpackedItems.map((item) => (
+                                            <li key={item.id}>{item.item}</li>
+                                        ))}
+                                        {packingList.filter(i => !i.packed).length > 3 && (
+                                            <span className="text-muted">...and more</span>
+                                        )}
+                                    </ul>
+                                )}
+                            </Card.Text>
                         </Card.Body>
                     </Card>
                 </Col>
