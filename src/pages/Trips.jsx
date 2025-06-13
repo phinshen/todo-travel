@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import { Container, Row, Col, Button, Modal, Card } from 'react-bootstrap';
 import AddTrip from '../components/AddTrip';
-import useLocalStorage from 'use-local-storage';
+import { useSelector } from 'react-redux';
 
 export default function Trips() {
-    const [trips, setTrips] = useLocalStorage("trips", []);
+    const trips = useSelector((state) => state.trips);
+
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState("");
-
-    function handleAddTrip(newTrip) {
-        setTrips((prev) => [...prev, newTrip]);
-        handleClose();
-    }
+    const [editData, setEditData] = useState(null); // To store the trip data that we are editing
 
     function handleOpenModal(type) {
         setModalType(type);
@@ -21,6 +18,7 @@ export default function Trips() {
     function handleClose() {
         setShowModal(false);
         setModalType("");
+        setEditData(null); // To avoid form to keep old data next time
     }
 
     return (
@@ -41,8 +39,23 @@ export default function Trips() {
                                         <Card.Title className="d-flex justify-content-between">
                                             {trip.countries}
                                             <div>
-                                                <Button size='sm' className="me-2 text-dark border" variant='light'><i className="bi bi-pencil"></i></Button>
-                                                <Button size='sm' className="text-dark border" variant='light'><i className="bi bi-trash3"></i></Button>
+                                                <Button
+                                                    size='sm'
+                                                    className="me-2 text-dark border"
+                                                    variant='light'
+                                                    onClick={() => {
+                                                        setEditData(trip); // To store the trip
+                                                        handleOpenModal("edit"); //To open modal in edit mode
+                                                    }}
+                                                >
+                                                    <i className="bi bi-pencil"></i>
+                                                </Button>
+                                                <Button
+                                                    size='sm'
+                                                    className="text-dark border"
+                                                    variant='light'>
+                                                    <i className="bi bi-trash3"></i>
+                                                </Button>
                                             </div>
                                         </Card.Title>
                                         <Card.Text>
@@ -60,9 +73,9 @@ export default function Trips() {
                 <Modal.Header closeButton>
                     <Modal.Title>Add Trip</Modal.Title>
                 </Modal.Header>
-                {modalType === "add" && (
+                {(modalType === "add" || modalType === "edit") && (
                     <Modal.Body>
-                        <AddTrip onAdd={handleAddTrip} />
+                        <AddTrip onClose={handleClose} editData={editData} />
                     </Modal.Body>
                 )}
             </Modal>
