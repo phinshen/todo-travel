@@ -1,20 +1,27 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addBucketList } from "../features/bucketListSlice";
+import { addBucketList, editBucketList } from "../features/bucketListSlice";
 import { Container, Form, Button } from 'react-bootstrap';
 import { countryList } from "./countries";
 
-export default function AddBucketList({ onClose }) {
-    const [countries, setCountries] = useState("");
-    const [targetDate, setTargetDate] = useState("");
+export default function AddBucketList({ onClose, editData }) {
+    const [countries, setCountries] = useState(editData ? editData.countries : "");
+    const [targetDate, setTargetDate] = useState(editData ? editData.targetDate : "");
     const dispatch = useDispatch();
 
     function handleSubmit(event) {
         event.preventDefault();
-        dispatch(addBucketList({ countries, targetDate }));
-        setCountries("");
-        setTargetDate("");
-        onClose();
+
+        if (editData) {
+            dispatch(editBucketList({ id: editData.id, countries, targetDate }))
+            onClose();
+        } else {
+            dispatch(addBucketList({ countries, targetDate }));
+            setCountries("");
+            setTargetDate("");
+            onClose();
+        }
+
     }
 
     return (

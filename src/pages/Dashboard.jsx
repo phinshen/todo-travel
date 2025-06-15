@@ -6,6 +6,7 @@ export default function Dashboard() {
     const navigate = useNavigate();
     const trips = useSelector((state) => state.trips);
     const packingList = useSelector((state) => state.packingList);
+    const bucketList = useSelector((state) => state.bucketList);
 
     const upcomingTrips = trips
         .filter(trip => new Date(trip.fromDate) > new Date()) //only future trips
@@ -18,6 +19,8 @@ export default function Dashboard() {
     return (
         <Container className='my-3'>
             <Row>
+
+                {/* ---------------------------------------------------------- Trips Section ----------------------------------------------- */}
                 <Col md={6} className='my-3'>
                     <Card className="card-hover" onClick={() => navigate("/trips")} >
                         <Card.Body>
@@ -39,6 +42,8 @@ export default function Dashboard() {
                         </Card.Body>
                     </Card>
                 </Col>
+
+                {/* ---------------------------------------------------------- Packing Section ----------------------------------------------- */}
                 <Col md={6} className='my-3'>
                     <Card className="card-hover" onClick={() => navigate("/packing-list")}>
                         <Card.Body>
@@ -66,6 +71,8 @@ export default function Dashboard() {
                         </Card.Body>
                     </Card>
                 </Col>
+
+                {/* ---------------------------------------------------------- Document and Booking Section ----------------------------------------------- */}
                 <Col md={6} className='my-3'>
                     <Card className="card-hover" onClick={() => navigate("/document-and-booking-list")}>
                         <Card.Body>
@@ -76,6 +83,8 @@ export default function Dashboard() {
                         </Card.Body>
                     </Card>
                 </Col>
+
+                {/* ---------------------------------------------------------- Bucket List Section ----------------------------------------------- */}
                 <Col md={6} className='my-3'>
                     <Card className="card-hover" onClick={() => navigate("/bucket-list")}>
                         <Card.Body>
@@ -83,9 +92,31 @@ export default function Dashboard() {
                                 <i className="bi-star-fill me-2"></i>
                                 Bucket List
                             </Card.Title>
+                            <Card.Text className="mt-3 p-3 bg-light rounded border">
+                                {bucketList.length > 0 ? (
+                                    <>
+                                        <strong>Destination To Go</strong>
+                                        <ul className="mb-0 ps-3" style={{ fontSize: "0.9rem" }}>
+                                            {bucketList.slice(0, 3).map((item) => (
+                                                <li key={item.id}>
+                                                    {item.countries}<br />
+                                                    <span className="text-muted">Target Date: {item.targetDate}</span>
+                                                </li>
+                                            ))}
+                                            {bucketList.lenght > 3 && (
+                                                <span className="text-muted">...and more</span>
+                                            )}
+                                        </ul>
+                                    </>
+                                ) : (
+                                    <span>No bucket list added</span>
+                                )}
+                            </Card.Text>
                         </Card.Body>
                     </Card>
                 </Col>
+
+
             </Row>
         </Container>
     )

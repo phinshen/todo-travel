@@ -1,20 +1,35 @@
 import { useState } from "react";
 import { Container, Row, Col, Button, Modal, Card } from 'react-bootstrap';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteBucketList } from "../features/bucketListSlice";
 
 import AddBucketList from "../components/AddBucketList";
 
 export default function BucketList() {
     const bucketList = useSelector((state) => state.bucketList);
+    const dispatch = useDispatch();
 
+    const [modalType, setModalType] = useState("");
+    const [editData, setEditData] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
-    function handleOpenModal() {
+    function handleOpenModal(type) {
+        setModalType(type);
         setShowModal(true);
     }
 
     function handleClose() {
         setShowModal(false);
+        setModalType("");
+        setEditData(null);
+    }
+
+    function handleDelete(bucketListId) {
+        const confirmDelete = window.confirm("Are you sure you want to delete this bucket list?");
+
+        if (confirmDelete) {
+            dispatch(deleteBucketList({ id: bucketListId }))
+        }
     }
 
     return (
@@ -23,7 +38,7 @@ export default function BucketList() {
                 <Row>
                     <div className="d-flex justify-content-between align-items-center">
                         <h2 className="mby-4">Bucket List - Country to Travel</h2>
-                        <Button className="mby-4" onClick={() => handleOpenModal()}>Add Country</Button>
+                        <Button className="mby-4" onClick={() => handleOpenModal("add")}>Add Country</Button>
                     </div>
 
                     {bucketList.length === 0 && <p className="my-3">No country added yet.</p>}
@@ -39,6 +54,10 @@ export default function BucketList() {
                                                     size="sm"
                                                     className="me-2 text-dark border"
                                                     variant="light"
+                                                    onClick={() => {
+                                                        setEditData(bucket);
+                                                        handleOpenModal("edit");
+                                                    }}
                                                 >
                                                     <i className="bi bi-pencil"></i>
                                                 </Button>
@@ -46,6 +65,9 @@ export default function BucketList() {
                                                     size="sm"
                                                     className="me-2 text-dark border"
                                                     variant="light"
+                                                    onClick={() => {
+                                                        handleDelete(bucket.id)
+                                                    }}
                                                 >
                                                     <i className="bi bi-trash3"></i>
                                                 </Button>
@@ -63,11 +85,14 @@ export default function BucketList() {
             </Container>
             <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Country</Modal.Title>
+                    <Modal.Title>{modalType === "edit" ? "Edit Country" : "Add Country"}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <AddBucketList onClose={handleClose} />
-                </Modal.Body>
+                {(modalType === 'add' || modalType == "edit") && (
+                    <Modal.Body>
+                        <AddBucketList onClose={handleClose} editData={editData} />
+                    </Modal.Body>
+                )}
+
             </Modal>
         </>
     )
