@@ -9,6 +9,7 @@ import { AuthContext } from "./AuthContext";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import './App.css';
 import PackingList from "./pages/PackingList";
+import BucketList from "./pages/BucketList";
 
 function Layout() {
   return (
@@ -46,6 +47,10 @@ export default function App() {
             <Route path="/packing-list" element={
               <RequireAuth>
                 <PackingList />
+              </RequireAuth>} />
+            <Route path="/bucket-list" element={
+              <RequireAuth>
+                <BucketList />
               </RequireAuth>} />
           </Route>
         </Routes>

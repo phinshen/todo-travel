@@ -47,16 +47,20 @@ export default function Dashboard() {
                                 Packing List
                             </Card.Title>
                             <Card.Text className="mt-3 p-3 bg-light rounded border">
-                                <strong>Remaining Items</strong><br />
-                                {unpackedItems.length > 0 && (
-                                    <ul className="mb-0 ps-3" style={{ fontSize: "0.9rem" }}>
-                                        {unpackedItems.map((item) => (
-                                            <li key={item.id}>{item.item}</li>
-                                        ))}
-                                        {packingList.filter(i => !i.packed).length > 3 && (
-                                            <span className="text-muted">...and more</span>
-                                        )}
-                                    </ul>
+                                {packingList.filter(item => !item.packed).length === 0 ? (
+                                    <span className="text-success fw-semibold">All items packed</span>
+                                ) : (
+                                    <>
+                                        <strong>Remaining Items</strong><br />
+                                        <ul className="mb-0 ps-3" style={{ fontSize: "0.9rem" }}>
+                                            {unpackedItems.map((item) => (
+                                                <li key={item.id}>{item.item}</li>
+                                            ))}
+                                            {packingList.filter(i => !i.packed).length > 3 && (
+                                                <li className="text-muted">...and more</li>
+                                            )}
+                                        </ul>
+                                    </>
                                 )}
                             </Card.Text>
                         </Card.Body>
