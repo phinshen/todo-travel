@@ -56,7 +56,7 @@ export default function Dashboard() {
                                     <span className="text-success fw-semibold">All items packed</span>
                                 ) : (
                                     <>
-                                        <strong>Remaining Items</strong><br />
+                                        <strong className="text-primary">Remaining Items</strong><br />
                                         <ul className="mb-0 ps-3" style={{ fontSize: "0.9rem" }}>
                                             {unpackedItems.map((item) => (
                                                 <li key={item.id}>{item.item}</li>
@@ -95,7 +95,7 @@ export default function Dashboard() {
                             <Card.Text className="mt-3 p-3 bg-light rounded border">
                                 {bucketList.length > 0 ? (
                                     <>
-                                        <strong>Destination To Go</strong>
+                                        <strong className="text-primary">Destination To Go</strong>
                                         <ul className="mb-0 ps-3" style={{ fontSize: "0.9rem" }}>
                                             {bucketList.slice(0, 3).map((item) => (
                                                 <li key={item.id}>

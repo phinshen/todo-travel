@@ -10,6 +10,7 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 import './App.css';
 import PackingList from "./pages/PackingList";
 import BucketList from "./pages/BucketList";
+import DocumentAndBookingList from "./pages/DocumentAndBookingList";
 
 function Layout() {
   return (
@@ -51,6 +52,10 @@ export default function App() {
             <Route path="/bucket-list" element={
               <RequireAuth>
                 <BucketList />
+              </RequireAuth>} />
+            <Route path="/document-and-booking-list" element={
+              <RequireAuth>
+                <DocumentAndBookingList />
               </RequireAuth>} />
           </Route>
         </Routes>
