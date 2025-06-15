@@ -7,6 +7,7 @@ export default function Dashboard() {
     const trips = useSelector((state) => state.trips);
     const packingList = useSelector((state) => state.packingList);
     const bucketList = useSelector((state) => state.bucketList);
+    const documentAndBookingList = useSelector((state) => state.documentAndBookingList);
 
     const upcomingTrips = trips
         .filter(trip => new Date(trip.fromDate) > new Date()) //only future trips
@@ -62,7 +63,7 @@ export default function Dashboard() {
                                                 <li key={item.id}>{item.item}</li>
                                             ))}
                                             {packingList.filter(i => !i.packed).length > 3 && (
-                                                <li className="text-muted">...and more</li>
+                                                <span className="text-muted">...and more</span>
                                             )}
                                         </ul>
                                     </>
@@ -80,6 +81,26 @@ export default function Dashboard() {
                                 <i className="bi-file-earmark-text-fill me-2"></i>
                                 Document and Booking List
                             </Card.Title>
+                            <Card.Text className="mt-3 p-3 bg-light rounded border">
+                                {documentAndBookingList.length > 0 ? (
+                                    <>
+                                        <strong className="text-primary">Document Detail</strong>
+                                        <ul className="mb-0 ps-3" style={{ fontSize: "0.9rem" }}>
+                                            {documentAndBookingList.slice(0, 3).map((document) => (
+                                                <li key={document.id}>
+                                                    <span className="fw-semibold">{document.title}</span><br />
+                                                    <span className="text-muted">Document No.: {document.bookingNumber}</span>
+                                                </li>
+                                            ))}
+                                            {documentAndBookingList.lenght > 3 && (
+                                                <span className="text-muted">...and more</span>
+                                            )}
+                                        </ul>
+                                    </>
+                                ) : (
+                                    <span>No document added</span>
+                                )}
+                            </Card.Text>
                         </Card.Body>
                     </Card>
                 </Col>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Container, Row, Col, Button, Modal, Card } from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
 import { deleteBucketList } from "../features/bucketListSlice";
-
 import AddBucketList from "../components/AddBucketList";
 
 export default function BucketList() {

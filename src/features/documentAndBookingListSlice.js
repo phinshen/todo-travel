@@ -9,9 +9,23 @@ const documentAndBookingListSlice = createSlice({
                 id: Date.now(),
                 ...action.payload
             })
+        },
+        editDocumentAndBookingList: (state, action) => {
+            const { id, title, bookingNumber } = action.payload;
+            const documentAndBookingList = state.find((document) => document.id === id);
+
+            if (documentAndBookingList) {
+                documentAndBookingList.title = title;
+                documentAndBookingList.bookingNumber = bookingNumber;
+            }
+        },
+        deleteDocumentAndBookingList: (state, action) => {
+            const selectedDocumentAndBookingListId = action.payload.id;
+            const newDocumentAndBookingList = state.filter((document) => document.id !== selectedDocumentAndBookingListId)
+            return newDocumentAndBookingList;
         }
     }
 });
 
-export const { addDocumentAndBookingList } = documentAndBookingListSlice.actions;
+export const { addDocumentAndBookingList, editDocumentAndBookingList, deleteDocumentAndBookingList } = documentAndBookingListSlice.actions;
 export default documentAndBookingListSlice.reducer;

@@ -4,7 +4,7 @@ import packingListReducer from "./features/packingListSlice";
 import bucketListReducer from "./features/bucketListSlice";
 import documentAndBookingListReducer from "./features/documentAndBookingListSlice";
 
-// load saved trips from localStorage 
+// -------------------------------------------- load saved trips from localStorage ---------------------------------------------------
 const loadFromLocalStorage = () => { //localStorage ONLY store STRINGS, not ARRAY. Therefore, convert is needed
     try { // checks if any saved data in the browser
         const trips = localStorage.getItem("trips");
@@ -29,7 +29,7 @@ const loadFromLocalStorage = () => { //localStorage ONLY store STRINGS, not ARRA
     }
 };
 
-// saving trips to localStorage when they change
+// ------------------------------------------ saving trips to localStorage when they change----------------------------------------
 const saveFromLocalStorage = (state) => {
     try {
         const tripsData = JSON.stringify(state.trips); // extract the trips part and convert array to strings
@@ -46,7 +46,7 @@ const saveFromLocalStorage = (state) => {
     }
 };
 
-// setting up Redux store
+// ------------------------------------------- setting up Redux store---------------------------------------------------
 const store = configureStore({
     reducer: {
         trips: tripsReducer, // store all trip data in 'trips' section
@@ -57,7 +57,7 @@ const store = configureStore({
     preloadedState: loadFromLocalStorage() // load from localStorage at the start
 });
 
-// Automatically save to localStorage every time the store changes
+// -------------------------------------------- Automatically save to localStorage every time the store changes --------------------------------------
 store.subscribe(() => {
     saveFromLocalStorage(store.getState()); //get full store and save it
 })

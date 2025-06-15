@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Container, Row, Col, Button, Modal, Card } from 'react-bootstrap';
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { deleteDocumentAndBookingList } from "../features/documentAndBookingListSlice";
 import AddDocumentAndBookingList from "../components/AddDocumentAndBookingList";
 
 export default function DocumentAndBookingList() {
     const documentAndBookingList = useSelector((state) => state.documentAndBookingList);
+    const dispatch = useDispatch();
+
     const [modalType, setModalType] = useState("");
+    const [editData, setEditData] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     function handleOpenModal(type) {
@@ -16,6 +19,16 @@ export default function DocumentAndBookingList() {
 
     function handleClose() {
         setShowModal(false);
+        setModalType("");
+        setEditData(null);
+    }
+
+    function handleDelete(documentListId) {
+        const confirmDelete = window.confirm("Are you sure you want to delete this document/booking?");
+
+        if (confirmDelete) {
+            dispatch(deleteDocumentAndBookingList({ id: documentListId }))
+        }
     }
 
     return (
@@ -40,6 +53,10 @@ export default function DocumentAndBookingList() {
                                                     size="sm"
                                                     className="me-2 text-dark border"
                                                     variant="light"
+                                                    onClick={() => {
+                                                        setEditData(document);
+                                                        handleOpenModal("edit");
+                                                    }}
                                                 >
                                                     <i className="bi bi-pencil"></i>
                                                 </Button>
@@ -47,6 +64,9 @@ export default function DocumentAndBookingList() {
                                                     size="sm"
                                                     className="me-2 text-dark border"
                                                     variant="light"
+                                                    onClick={() => {
+                                                        handleDelete(document.id);
+                                                    }}
                                                 >
                                                     <i className="bi bi-trash3"></i>
                                                 </Button>
@@ -67,10 +87,11 @@ export default function DocumentAndBookingList() {
                 <Modal.Header closeButton>
                     <Modal.Title>Add Document/Booking</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <AddDocumentAndBookingList onClose={handleClose} />
-                </Modal.Body>
-
+                {(modalType === "add" || modalType === "edit") && (
+                    <Modal.Body>
+                        <AddDocumentAndBookingList onClose={handleClose} editData={editData} />
+                    </Modal.Body>
+                )}
             </Modal>
         </>
     )

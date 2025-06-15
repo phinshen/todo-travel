@@ -21,7 +21,6 @@ export default function AddBucketList({ onClose, editData }) {
             setTargetDate("");
             onClose();
         }
-
     }
 
     return (

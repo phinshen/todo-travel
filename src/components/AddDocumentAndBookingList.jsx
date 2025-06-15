@@ -1,26 +1,31 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import { addDocumentAndBookingList } from "../features/documentAndBookingListSlice";
+import { addDocumentAndBookingList, editDocumentAndBookingList } from "../features/documentAndBookingListSlice";
 
-export default function AddDocumentAndBookingList({ onClose }) {
-    const [title, setTitle] = useState("");
-    const [bookingNumber, setBookingNumber] = useState("");
+export default function AddDocumentAndBookingList({ onClose, editData }) {
+    const [title, setTitle] = useState(editData ? editData.title : "");
+    const [bookingNumber, setBookingNumber] = useState(editData ? editData.bookingNumber : "");
     const dispatch = useDispatch();
 
     function handleSubmit(event) {
         event.preventDefault();
-        dispatch(addDocumentAndBookingList({ title, bookingNumber }));
-        setTitle("");
-        setBookingNumber("");
-        onClose();
+
+        if (editData) {
+            dispatch(editDocumentAndBookingList({ id: editData.id, title, bookingNumber }))
+            onClose();
+        } else {
+            dispatch(addDocumentAndBookingList({ title, bookingNumber }));
+            setTitle("");
+            setBookingNumber("");
+            onClose();
+        }
     }
 
     return (
         <>
             <Container>
                 <Form onSubmit={handleSubmit}>
-
                     <Form.Group className="mb-3" controlId="title">
                         <Form.Label>Title:</Form.Label>
                         <Form.Control
