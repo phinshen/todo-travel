@@ -1,26 +1,41 @@
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Trips from "./pages/Trips";
-import useLocalStorage from 'use-local-storage';
 import RequireAuth from "./components/RequireAuth";
-
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
-import { Container, Navbar, Nav } from "react-bootstrap";
-import './App.css';
 import PackingList from "./pages/PackingList";
 import BucketList from "./pages/BucketList";
 import DocumentAndBookingList from "./pages/DocumentAndBookingList";
+import Signup from "./pages/Signup";
+import { logout } from "./features/authSlice";
+import './App.css';
+
+import { BrowserRouter, Routes, Route, Outlet, useNavigate } from "react-router-dom";
+import { Container, Navbar, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
 function Layout() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  }
+
   return (
     <>
       <Navbar style={{ backgroundColor: "#87CEFA" }} variant="light">
-        <Container>
+        <Container className="d-flex justify-content-between align-items-center">
           <Navbar.Brand href="/dashboard">
             <i className="bi bi-airplane" style={{ fontSize: "50px" }}></i>
             <Navbar.Text className="ms-3 fw-bold display-6">TripPros</Navbar.Text>
           </Navbar.Brand>
+          {token && (
+            <Button variant="danger" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
         </Container>
       </Navbar>
       <Outlet />
@@ -29,38 +44,35 @@ function Layout() {
 }
 
 export default function App() {
-  const [token, setToken] = useLocalStorage("token", null); // setting up a token state, used for authentication
-
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Login />} />
-            <Route path="/dashboard" element={
-              <RequireAuth>
-                <Dashboard />
-              </RequireAuth>} />
-            <Route path="/trips" element={
-              <RequireAuth>
-                <Trips />
-              </RequireAuth>} />
-            <Route path="/packing-list" element={
-              <RequireAuth>
-                <PackingList />
-              </RequireAuth>} />
-            <Route path="/bucket-list" element={
-              <RequireAuth>
-                <BucketList />
-              </RequireAuth>} />
-            <Route path="/document-and-booking-list" element={
-              <RequireAuth>
-                <DocumentAndBookingList />
-              </RequireAuth>} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </AuthContext.Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>} />
+          <Route path="/trips" element={
+            <RequireAuth>
+              <Trips />
+            </RequireAuth>} />
+          <Route path="/packing-list" element={
+            <RequireAuth>
+              <PackingList />
+            </RequireAuth>} />
+          <Route path="/bucket-list" element={
+            <RequireAuth>
+              <BucketList />
+            </RequireAuth>} />
+          <Route path="/document-and-booking-list" element={
+            <RequireAuth>
+              <DocumentAndBookingList />
+            </RequireAuth>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

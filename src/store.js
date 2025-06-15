@@ -3,6 +3,7 @@ import tripsReducer from "./features/tripsSlice";
 import packingListReducer from "./features/packingListSlice";
 import bucketListReducer from "./features/bucketListSlice";
 import documentAndBookingListReducer from "./features/documentAndBookingListSlice";
+import authReducer from "./features/authSlice";
 
 // -------------------------------------------- load saved trips from localStorage ---------------------------------------------------
 const loadFromLocalStorage = () => { //localStorage ONLY store STRINGS, not ARRAY. Therefore, convert is needed
@@ -11,12 +12,14 @@ const loadFromLocalStorage = () => { //localStorage ONLY store STRINGS, not ARRA
         const packingList = localStorage.getItem("packingList");
         const bucketList = localStorage.getItem("bucketList");
         const documentAndBookingList = localStorage.getItem("documentAndBookingList")
+        const auth = localStorage.getItem("auth");
 
         return { //if found, convert strings to array
             trips: trips ? JSON.parse(trips) : [],
             packingList: packingList ? JSON.parse(packingList) : [],
             bucketList: bucketList ? JSON.parse(bucketList) : [],
-            documentAndBookingList: documentAndBookingList ? JSON.parse(documentAndBookingList) : []
+            documentAndBookingList: documentAndBookingList ? JSON.parse(documentAndBookingList) : [],
+            auth: auth ? JSON.parse(auth) : { token: null, user: null },
         }
 
     } catch {
@@ -24,7 +27,8 @@ const loadFromLocalStorage = () => { //localStorage ONLY store STRINGS, not ARRA
             trips: [],
             packingList: [],
             bucketList: [],
-            documentAndBookingList: []
+            documentAndBookingList: [],
+            auth: { token: null, user: null },
         }
     }
 };
@@ -36,11 +40,13 @@ const saveFromLocalStorage = (state) => {
         const packingListData = JSON.stringify(state.packingList);
         const bucketListData = JSON.stringify(state.bucketList);
         const documentAndBookingListData = JSON.stringify(state.documentAndBookingList);
+        const authData = JSON.stringify(state.auth);
 
         localStorage.setItem("trips", tripsData); // store it in browser
         localStorage.setItem("packingList", packingListData);
         localStorage.setItem("bucketList", bucketListData);
         localStorage.setItem("documentAndBookingList", documentAndBookingListData);
+        localStorage.setItem("auth", authData);
     } catch (error) {
         console.error("Failed to save trips", error);
     }
@@ -52,7 +58,8 @@ const store = configureStore({
         trips: tripsReducer, // store all trip data in 'trips' section
         packingList: packingListReducer,
         bucketList: bucketListReducer,
-        documentAndBookingList: documentAndBookingListReducer
+        documentAndBookingList: documentAndBookingListReducer,
+        auth: authReducer,
     },
     preloadedState: loadFromLocalStorage() // load from localStorage at the start
 });
