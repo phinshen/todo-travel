@@ -12,6 +12,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import { Container, Navbar, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import LandingPage from "./pages/LandingPage";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route index element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={
