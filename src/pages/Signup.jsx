@@ -7,19 +7,30 @@ import { Button, Form, Container, FormGroup, Nav } from 'react-bootstrap';
 export default function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
+
     function handleSignup(event) {
         event.preventDefault();
-        const fakeToken = 'abcd1234';
-        dispatch(signup({ token: fakeToken, user: { email } }));
+
+        const existingUser = JSON.parse(localStorage.getItem("registeredUser"));
+        if (existingUser && existingUser.email === email) {
+            setError("User already exists. Please login,");
+            return;
+        }
+
+        localStorage.setItem("registeredUser", JSON.stringify({ email, password }))
+        dispatch(signup({ token: "1234", user: { email } }));
         navigate("/dashboard");
     }
 
     return (
         <Container className="my-5">
             <h1>Sign Up</h1>
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <Form onSubmit={handleSignup}>
                 <FormGroup className="my-3" controlId="email">
                     <Form.Label>Email address</Form.Label>

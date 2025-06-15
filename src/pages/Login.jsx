@@ -13,12 +13,23 @@ export default function Login() {
 
     function handleLogin(event) {
         event.preventDefault();
-        if (email === "example@example.com" && password === "password") {
+        const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
+
+        if (
+            storedUser &&
+            storedUser.email === email &&
+            storedUser.password === password
+        ) {
             setError(""); // clear error if login is correct
             dispatch(login({ token: "1234", user: { email } }));
             navigate("/dashboard");
         } else {
-            setError('Incorrect username/password'); // show error
+            setError('Incorrect username/password, Please sign up first'); // show error
+        }
+
+        if (!storedUser) {
+            setError("No account found. Please sign up first.");
+            return;
         }
 
     }
