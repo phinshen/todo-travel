@@ -89,26 +89,11 @@ export default function App() {
 
 
 
-// Ultimate Travel Planner:
-// One can list everything that needs to be packed based on various vacations // PackingList.jsx
-// plan future trips // Trip.jsx
-// keep documents and bookings organised // DocumentAndBookingList.jsx
-// keep a bucket list of all the places one wants to visit. // BucketList.jsx
-
-// Pages:
-// Home
-// Login Page
-// Dashboard
-// Trip.jsx
-// PackingList.jsx
-// DocumentAndBookingList.jsx
-// BucketList.jsx
-
-// components:
-// AuthRequired.jsx
-
-// src:
-// AuthContext.js
-
 // Extra component to add:
 // Countdown Timer to each trip
+// Progress bar for packing list
+// fill up the empty space below the webpage (eg. suggestion in the card)
+// add up other trip that is added in dashboard
+// add up more detail on modal form for better information
+// include categories in all 4 features if possible
+// expand this project more as a personal project
