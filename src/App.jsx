@@ -17,11 +17,11 @@ import LandingPage from "./pages/LandingPage";
 function Layout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth.token); // check if the user is logged in
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+    dispatch(logout()); // clear user token from redux store
+    navigate("/"); //redirect to landing page
   }
 
   return (

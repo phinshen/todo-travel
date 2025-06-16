@@ -11,18 +11,18 @@ const documentAndBookingListSlice = createSlice({
             })
         },
         editDocumentAndBookingList: (state, action) => {
-            const { id, title, bookingNumber } = action.payload;
-            const documentAndBookingList = state.find((document) => document.id === id);
+            const { id, title, bookingNumber } = action.payload; // destructuring data from payload
+            const documentAndBookingList = state.find((document) => document.id === id); // finding the documentList in state by matching the id
 
-            if (documentAndBookingList) {
+            if (documentAndBookingList) { //update value
                 documentAndBookingList.title = title;
                 documentAndBookingList.bookingNumber = bookingNumber;
             }
         },
         deleteDocumentAndBookingList: (state, action) => {
-            const selectedDocumentAndBookingListId = action.payload.id;
-            const newDocumentAndBookingList = state.filter((document) => document.id !== selectedDocumentAndBookingListId)
-            return newDocumentAndBookingList;
+            const selectedDocumentAndBookingListId = action.payload.id; // getting only id from the specific document data
+            const newDocumentAndBookingList = state.filter((document) => document.id !== selectedDocumentAndBookingListId) // create a new array by excluding the unwanted data
+            return newDocumentAndBookingList; // replacing old state with flitered array
         }
     }
 });

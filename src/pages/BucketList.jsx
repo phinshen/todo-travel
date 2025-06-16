@@ -37,7 +37,7 @@ export default function BucketList() {
                 <Row>
                     <div className="d-flex justify-content-between align-items-center">
                         <h2 className="mby-4">Bucket List - Country to Travel</h2>
-                        <Button className="mby-4" onClick={() => handleOpenModal("add")}>Add Country</Button>
+                        <Button className="mby-4" onClick={() => handleOpenModal("add")}>Add</Button>
                     </div>
 
                     {bucketList.length === 0 && <p className="my-3">No country added yet.</p>}

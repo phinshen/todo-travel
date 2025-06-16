@@ -5,26 +5,26 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Container, FormGroup, Nav } from 'react-bootstrap';
 
 export default function Signup() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
+    const [email, setEmail] = useState(""); // to store email input
+    const [password, setPassword] = useState(""); // to store password input
+    const [error, setError] = useState(null); // to store error messages 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
 
-
     function handleSignup(event) {
-        event.preventDefault();
+        event.preventDefault(); // prevent the page from refreshing on submit
 
+        // check if user already exist in localStorage
         const existingUser = JSON.parse(localStorage.getItem("registeredUser"));
         if (existingUser && existingUser.email === email) {
             setError("User already exists. Please login,");
             return;
         }
 
-        localStorage.setItem("registeredUser", JSON.stringify({ email, password }))
-        dispatch(signup({ token: "1234", user: { email } }));
-        navigate("/dashboard");
+        localStorage.setItem("registeredUser", JSON.stringify({ email, password })); //save new user in localStorage
+        dispatch(signup({ token: "1234", user: { email } })); // dispatch signup action to Redux store
+        navigate("/dashboard"); //redirect to dashboard after successful signup
     }
 
     return (

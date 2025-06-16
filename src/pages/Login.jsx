@@ -8,13 +8,15 @@ export default function Login() {
     const [email, setEmail] = useState(""); // to store email input
     const [password, setPassword] = useState(""); // to store password input
     const [error, setError] = useState(null); // to store error messages 
-    const navigate = useNavigate(); //allow programmatic page navatigation
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     function handleLogin(event) {
-        event.preventDefault();
+        event.preventDefault(); // prevent the page to refresh after submit
         const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
+        // convert string to array // retrieve stored user from localStorage
 
+        // check if credential is match
         if (
             storedUser &&
             storedUser.email === email &&
@@ -24,7 +26,7 @@ export default function Login() {
             dispatch(login({ token: "1234", user: { email } }));
             navigate("/dashboard");
         } else {
-            setError('Incorrect username/password, Please sign up first'); // show error
+            setError('Incorrect username/password. Please sign up first'); // show error
         }
 
         if (!storedUser) {

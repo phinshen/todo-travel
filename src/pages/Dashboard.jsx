@@ -9,13 +9,16 @@ export default function Dashboard() {
     const bucketList = useSelector((state) => state.bucketList);
     const documentAndBookingList = useSelector((state) => state.documentAndBookingList);
 
+    // filter trips that are scheduled in the future
     const upcomingTrips = trips
         .filter(trip => new Date(trip.fromDate) > new Date()) //only future trips
         .sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate)); // sort by soonest
 
     const nextTrips = upcomingTrips[0]; //get the first index in the array
 
-    const unpackedItems = packingList.filter(item => !item.packed).slice(0, 3); //limit to 3 items to show on dashboard
+    const unpackedItems = packingList
+        .filter(item => !item.packed) // Only show items not yet packed
+        .slice(0, 3); //limit to 3 items to show on dashboard
 
     return (
         <Container className='my-3'>

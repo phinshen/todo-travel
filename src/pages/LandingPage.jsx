@@ -14,7 +14,7 @@ export default function LandingPage() {
                             Your Ultimate Travel Companion — Pack smart, plan ahead, and keep everything organized in one place!
                         </p>
                         <ul className="mt-4 list-unstyled">
-                            <li>✔️ Plan your trips with detailed itineraries</li>
+                            <li>✔️ Organize your trips</li>
                             <li>✔️ Manage your packing lists</li>
                             <li>✔️ Organize your documents and bookings</li>
                             <li>✔️ Keep a bucket list of dream destinations</li>
